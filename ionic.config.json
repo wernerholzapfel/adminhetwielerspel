@@ -1,0 +1,7 @@
+{
+  "name": "adminhetwielerspel",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular"
+}
