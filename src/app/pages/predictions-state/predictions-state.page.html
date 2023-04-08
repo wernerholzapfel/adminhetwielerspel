@@ -1,0 +1,62 @@
+<ion-header [translucent]="true">
+  <ion-toolbar mode="ios" color="tertiary">
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <ion-title>Voorspellingen</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-grid class="ion-no-padding">
+    <ion-row>
+      <ion-col sizeLg="6" sizeXs="12" *ngFor="let prediction of predictionState">
+        <ion-card [color]="prediction.compleet ? 'success': 'warning'">
+          <ion-card-header>
+            <ion-card-title>
+              {{prediction.displayName}}
+            </ion-card-title>
+            <ion-card-subtitle>
+              {{prediction.compleet ? 'Compleet' : 'Incompleet'}}
+            </ion-card-subtitle>
+          </ion-card-header>
+          <ion-card-content>
+            <li>
+              Aantal Renners: {{prediction.renners}},
+            </li>
+            <li>
+              Meesterknecht:{{prediction.meesterknecht}}
+            </li>
+            <li>
+              Beschermderenner: {{prediction.beschermderenner}}
+            </li>
+            <li>
+              Waterdrager: {{prediction.waterdrager}}
+            </li>
+            <li>
+              Joker: {{prediction.joker}}
+            </li>
+            <li>
+              Aantal Renners: {{prediction.totaalRenners}}
+            </li>
+            <li>
+              Waarde Renners: {{prediction.waardeRenners}}
+            </li>
+            <li>
+              Waarde Meesterknecht: {{prediction.waardeMeesterknecht}}
+            </li>
+            <li>
+              Waarde Beschermderenner: {{prediction.waardeBeschermderenner}}
+            </li>
+            <li>
+              Waarde Waterdrager: {{prediction.waardeWaterdrager}}
+            </li>
+            <li>
+              Waarde Joker: {{prediction.waardeJoker}}
+            </li>
+          </ion-card-content>
+        </ion-card>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</ion-content>

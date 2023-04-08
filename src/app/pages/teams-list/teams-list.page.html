@@ -1,0 +1,25 @@
+<ion-header [translucent]="true">
+  <ion-toolbar mode="ios" color="tertiary">
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <ion-title>Teams ({{numberOfTeams}})</ion-title>
+  </ion-toolbar>
+</ion-header>
+<ng-container *ngIf="teams.length > 0">
+  <ion-content>
+    <ion-grid class="ion-no-padding">
+      <ion-row>
+      <ion-col sizeLg="6" sizeXs="12" *ngFor="let team of teams">
+        <ion-item>
+          {{team.teamName}}
+          <ion-checkbox [(ngModel)]="team.selected" slot="end" (ionChange)="setNumberOfSelected()"></ion-checkbox>
+        </ion-item>
+      </ion-col>
+    </ion-row>
+    </ion-grid>
+  </ion-content>
+  <ion-footer>
+    <ion-button expand="full" (click)="saveTeams(teams)">Opslaan</ion-button>
+  </ion-footer>
+</ng-container>

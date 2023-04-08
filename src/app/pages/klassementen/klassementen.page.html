@@ -1,0 +1,19 @@
+<ion-header [translucent]="true">
+  <ion-toolbar mode="ios" color="tertiary">
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <ion-title>
+      <ion-select [interfaceOptions]="customActionSheetOptions" interface="action-sheet" 	[value]="activeKlassement"
+      (ionChange)="selectKlassement($event)">
+        <ion-select-option [value]="ALGEMEENKLASSEMENT">Algemeen</ion-select-option>
+        <ion-select-option [value]="BERGKLASSEMENT">Berg</ion-select-option>
+        <ion-select-option [value]="PUNTENKLASSEMENT">Punten</ion-select-option>
+        <ion-select-option [value]="JONGERENKLASSEMENT">Jongeren</ion-select-option>
+      </ion-select>
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+  <ion-content>
+<app-uitslagen-grid [typeKlassement]="activeKlassement"></app-uitslagen-grid>
+  </ion-content>

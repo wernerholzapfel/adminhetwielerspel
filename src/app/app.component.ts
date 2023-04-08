@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { UiService } from './services/ui.service';
 @Component({
   selector: 'app-root',
   templateUrl: 'app.component.html',
@@ -6,13 +7,15 @@ import { Component } from '@angular/core';
 })
 export class AppComponent {
   public appPages = [
-    { title: 'Inbox', url: '/folder/Inbox', icon: 'mail' },
-    { title: 'Outbox', url: '/folder/Outbox', icon: 'paper-plane' },
-    { title: 'Favorites', url: '/folder/Favorites', icon: 'heart' },
-    { title: 'Archived', url: '/folder/Archived', icon: 'archive' },
-    { title: 'Trash', url: '/folder/Trash', icon: 'trash' },
-    { title: 'Spam', url: '/folder/Spam', icon: 'warning' },
+    { title: 'Tour', url: '/tour', icon: 'bicycle' },
+    { title: 'Teams', url: '/teams', icon: 'people' },
+    { title: 'Renners', url: '/renners', icon: 'person-add' },
+    { title: 'Voorspellingen', url: '/predictions-state', icon: 'navigate' },
+    { title: 'Etappes', url: '/etappes', icon: 'navigate' },
+    { title: 'Klassementen', url: '/klassementen', icon: 'medal' },
+    { title: 'Headlines', url: '/headlines', icon: 'newspaper' },
+    { title: 'Standen', url: '/standen', icon: 'podium' },
   ];
-  public labels = ['Family', 'Friends', 'Notes', 'Work', 'Travel', 'Reminders'];
-  constructor() {}
+
+  constructor(public uiService: UiService) {}
 }

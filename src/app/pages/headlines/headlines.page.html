@@ -1,0 +1,65 @@
+<ion-header [translucent]="true">
+  <ion-toolbar mode="ios" color="tertiary">
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <ion-title>Headlines</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ng-container *ngFor="let headline of (headlines$ | async)">
+    <ion-item lines="none">
+      <ion-label>
+        <p>
+          {{headline.title}}
+        </p>
+        <p>
+          <ion-text color="medium">
+            {{headline.createdDate | date : 'dd MMMM HH:mm'}}
+          </ion-text>
+        </p>
+        <p [innerHTML]="headline.text" class="ion-text-wrap">
+        </p>
+      </ion-label>
+    </ion-item>
+    <ion-item lines="full">
+      <ion-label>Is actief</ion-label>
+      <ion-toggle color="tertiary" mode="ios" [checked]="headline.isActive"></ion-toggle>
+      <ion-button slot="end" (click)="editHeadline(headline)">Wijzig</ion-button>
+    </ion-item>
+  </ng-container>
+</ion-content>
+
+<ion-modal [isOpen]="isModalOpen" (willDismiss)="onWillDismiss($event)">
+  <ng-template>
+    <ion-header>
+      <ion-toolbar mode="ios" color="tertiary">
+        <ion-buttons slot="start">
+          <ion-button (click)="cancel()">Cancel</ion-button>
+        </ion-buttons>
+        <ion-title>Headline</ion-title>
+        <ion-buttons slot="end">
+          <ion-button (click)="confirm()" [strong]="true">Opslaan</ion-button>
+        </ion-buttons>
+      </ion-toolbar>
+    </ion-header>
+    <ion-content class="ion-padding" *ngIf="headline">
+      <ion-item>
+        <ion-label position="stacked">Titel</ion-label>
+        <ion-input type="text" [(ngModel)]="headline.title"></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-label position="stacked">Tekst</ion-label>
+        <ion-textarea rows="10" type="text" [(ngModel)]="headline.text"></ion-textarea>
+      </ion-item>
+      <ion-item>
+        <ion-label>Actief</ion-label>
+        <ion-toggle color="tertiary" type="text" [(ngModel)]="headline.isActive"></ion-toggle>
+      </ion-item>
+    </ion-content>
+  </ng-template>
+</ion-modal>
+<ion-footer>
+  <ion-button expand="full" color="secondary" (click)="addHeadline()">Voeg nieuwe toe</ion-button>
+</ion-footer>
