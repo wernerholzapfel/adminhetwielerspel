@@ -33,7 +33,7 @@
               </ion-reorder-group>
             </ion-list>
           </ion-card-content>
-          <ion-button color="tertiary" [disabled]="etappeUitslag.length !== 1" (click)="save()"
+          <ion-button color="tertiary" (click)="save()"
             expand="full">Opslaan</ion-button>
           <ion-button color="tertiary" [disabled]="etappeUitslag.length !== 20" (click)="updatePredictionScore()"
             expand="full">Update Score
@@ -49,7 +49,9 @@
           </ion-card-header>
           <ion-card-content>
             <ion-item>
-              <ion-searchbar mode="ios"></ion-searchbar>
+              <ion-searchbar mode="ios" [value]="searchTerm$ | async" (ionChange)="search($event)" placeholder="Zoek renner"
+              debounce="500">
+            </ion-searchbar>
             </ion-item>
             <ion-item *ngFor="let tourrider of tourriders">
               <ion-label>

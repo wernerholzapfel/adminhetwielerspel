@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { IonItem, ItemReorderEventDetail } from '@ionic/angular';
-import { Observable, of, Subject, switchMap, takeUntil } from 'rxjs';
+import { BehaviorSubject, combineLatest, from, Observable, of, Subject, switchMap, takeUntil } from 'rxjs';
 import { IStageClassification } from 'src/app/models/etappe.model';
 import { ITourrider } from 'src/app/models/tourriders.model';
 import { EtappeService } from 'src/app/services/etappe.service';
@@ -21,6 +21,7 @@ export class EtappeUitslagPage implements OnInit {
   etappeUitslag: IStageClassification[] = [];
   tourriders: ITourrider[] = [];
   unsubscribe!: Subject<void>;
+  searchTerm$: BehaviorSubject<string> = new BehaviorSubject('');
 
   constructor(private route: ActivatedRoute,
     private classificationService: ClassificationsService,
@@ -38,13 +39,15 @@ export class EtappeUitslagPage implements OnInit {
         this.etappeUitslag = response
       })
 
+
     this.uiService.selectedTour
       .pipe(takeUntil(this.unsubscribe))
       .pipe(switchMap(tour => {
-        return tour && tour.id ? this.tourriderService.getTourriders(tour.id) : of([])
+        return tour && tour.id ? combineLatest([this.tourriderService.getTourriders(tour.id), this.searchTerm$]) : combineLatest([of([]), of('')])
       }))
-      .subscribe(tourriders => {
-        this.tourriders = tourriders
+      .subscribe(([tourriders, searchTerm]) => {
+        console.log(tourriders.length)
+        this.tourriders = this.uiService.filterTourriders(searchTerm, tourriders)
       })
   }
 
@@ -90,14 +93,18 @@ export class EtappeUitslagPage implements OnInit {
 
   save() {
     this.classificationService.saveStageclassifications(this.etappeUitslag).subscribe(response => {
-      console.log(response)
+      console.log(response);
+      this.uiService.presentToast('opslaan gelukt')
     })
   }
 
   updatePredictionScore() {
     this.predictionScoreService.updatePredictionScoreEtappe(this.uiService.selectedTour.getValue().id, this.route.snapshot.params['id'])
       .subscribe(response => {
-        console.log(response);
+        this.uiService.presentToast('opslaan gelukt')
       })
+  }
+  search($event: any) {
+    this.searchTerm$.next($event.detail.value);
   }
 }

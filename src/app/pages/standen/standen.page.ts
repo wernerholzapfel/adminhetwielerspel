@@ -17,25 +17,31 @@ export class StandenPage implements OnInit {
   updateAlgemeen() {
     this.predictionScoreService.updatePredictionScoreAlgemeen(this.uiService.selectedTour.getValue().id)
     .subscribe(response => {
-      console.log(response)
+      this.uiService.presentToast('Opslaan gelukt')
     })
   }
     updateBerg() {
     this.predictionScoreService.updatePredictionScoreBerg(this.uiService.selectedTour.getValue().id)
     .subscribe(response => {
       console.log(response)
+      this.uiService.presentToast('Opslaan gelukt')
+
     })
   }
   updatePunten() {
     this.predictionScoreService.updatePredictionScorePunten(this.uiService.selectedTour.getValue().id)
     .subscribe(response => {
       console.log(response)
+      this.uiService.presentToast('Opslaan gelukt')
+
     })
   }
   updateJongeren() {
     this.predictionScoreService.updatePredictionScoreJongeren(this.uiService.selectedTour.getValue().id)
     .subscribe(response => {
       console.log(response)
+      this.uiService.presentToast('Opslaan gelukt')
+
     })
   }
 
