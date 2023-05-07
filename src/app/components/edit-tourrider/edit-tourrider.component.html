@@ -1,0 +1,40 @@
+<ion-header>
+  <ion-toolbar mode="ios" color="tertiary">
+    <ion-buttons slot="end">
+      <ion-button (click)="dismissModal()" color="light">
+        <ion-icon name="close-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+
+    <ion-title routerLink="/tabs/home">
+      Wijzig {{tourrider.rider.surName}}
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+<ion-content>
+  <ion-list>
+    <ion-item>
+      <ion-select placeholder="Wissel renner" (ionChange)="setRenner($event)">
+        <ion-select-option *ngFor="let rider of riders" [value]="rider">{{rider.firstName}}
+          {{rider.surName}}</ion-select-option>
+      </ion-select>
+    </ion-item>
+    <ion-item>
+      <ion-input type="number" [(ngModel)]="tourrider.waarde"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label>Renner is uitgevallen</ion-label>
+      <ion-checkbox [checked]="tourrider.isOut" (ionChange)="toggleTourriderIsOut($event)" [(ngModel)]="tourrider.isOut">
+      </ion-checkbox>
+    </ion-item>
+    <ion-item>
+      <ion-select placeholder="Uitval etappe" (ionChange)="setEtappe($event)" [disabled]="!tourrider.isOut" 
+      [value]="tourrider.latestEtappe">
+        <ion-select-option *ngFor="let etappe of etappes" [value]="etappe">{{etappe.etappeName}}</ion-select-option>
+      </ion-select>
+    </ion-item>
+    <ion-item>
+      <ion-button (click)="save()">Opslaan</ion-button>
+    </ion-item>
+  </ion-list>
+</ion-content>

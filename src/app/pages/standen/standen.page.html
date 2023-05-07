@@ -14,8 +14,9 @@
           <ion-button expand="full" color="secondary" (click)="updateBerg()">Update Berg</ion-button>
           <ion-button expand="full" color="secondary" (click)="updatePunten()">Update Punten</ion-button>
           <ion-button expand="full" color="secondary" (click)="updateJongeren()" >Update Jongeren</ion-button>
-          <ion-button expand="full" color="secondary" disabled (click)="updateStand()">Update stand</ion-button>
-          <ion-button expand="full" color="secondary" disabled (click)="updateRenners()">Update renners</ion-button>
+          <ion-button expand="full" color="secondary" (click)="InvalidateCache()" >Cache legen</ion-button>
+          <!-- <ion-button expand="full" color="secondary" disabled (click)="updateStand()">Update stand</ion-button> -->
+          <!-- <ion-button expand="full" color="secondary" disabled (click)="updateRenners()">Update renners</ion-button> -->
           <ion-button expand="full" color="secondary" disabled>Verstuur notificatie</ion-button>
       </ion-col>
     </ion-row>

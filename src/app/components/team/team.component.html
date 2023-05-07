@@ -9,6 +9,9 @@
       {{tourrider.rider.firstName}}
       {{tourrider.rider.surName}}
       <ion-chip class="ion-no-margin" slot="end">{{tourrider.waarde}}</ion-chip>
+      <ion-button class="ion-no-margin" fill="clear" slot="end" (click)="openTourriderDialog(tourrider)">
+        <ion-icon color="danger" slot="icon-only" name="pencil-outline"></ion-icon>
+      </ion-button>
       <ion-button class="ion-no-margin" fill="clear" slot="end" (click)="deleteTourrider(tourrider)">
         <ion-icon color="danger" slot="icon-only" name="trash-outline"></ion-icon>
       </ion-button>

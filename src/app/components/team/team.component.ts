@@ -1,4 +1,5 @@
-import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnDestroy, OnInit, Output, ViewChild } from '@angular/core';
+import { IonModal, ModalController } from '@ionic/angular';
 import { BehaviorSubject, combineLatest, Observable, of, Subject, switchMap, takeUntil } from 'rxjs';
 import { IRider } from 'src/app/models/rider.model';
 import { ITeam } from 'src/app/models/team.model';
@@ -6,6 +7,7 @@ import { ITourrider } from 'src/app/models/tourriders.model';
 import { RiderService } from 'src/app/services/rider.service';
 import { TourriderService } from 'src/app/services/tourrider.service';
 import { UiService } from 'src/app/services/ui.service';
+import { EditTourriderComponent } from '../edit-tourrider/edit-tourrider.component';
 
 @Component({
   selector: 'app-team',
@@ -13,7 +15,6 @@ import { UiService } from 'src/app/services/ui.service';
   styleUrls: ['./team.component.scss'],
 })
 export class TeamComponent implements OnInit, OnDestroy {
-
   @Output() addRiderToAlreadySelected: EventEmitter<IRider> = new EventEmitter<IRider>();
   @Output() removeRiderFromAlreadySelected: EventEmitter<IRider> = new EventEmitter<IRider>();
 
@@ -54,7 +55,8 @@ export class TeamComponent implements OnInit, OnDestroy {
 
   constructor(private uiService: UiService,
     private riderService: RiderService,
-    private tourridersService: TourriderService) { }
+    private tourridersService: TourriderService,
+    private modalCtrl: ModalController) { }
 
   ngOnInit() {
     this.unsubscribe = new Subject<void>();
@@ -109,9 +111,60 @@ export class TeamComponent implements OnInit, OnDestroy {
 
   }
 
+  async openTourriderDialog(tourrider: ITourrider) {
+    const modal = await this.modalCtrl.create({
+      component: EditTourriderComponent,
+      componentProps: {
+        tourrider: tourrider,
+      },
+      swipeToClose: true,
+    });
+    modal.present();
+
+    const { data, role } = await modal.onWillDismiss();
+    if (role === 'save') {
+      this.tourridersService.updateTourrider(
+        {
+          ...data,
+          team: this.team,
+          tour: this.uiService.selectedTour.getValue()
+        }).subscribe(response => {
+          console.log(response)
+          this.uiService.presentToast('opslaan gelukt')
+          this.fetch$.next(true);
+          this.addRiderToAlreadySelected.emit(data.rider);
+        })
+    }
+  }
+
+
+  editTourrider(tourrider: ITourrider) {
+    // this.tourridersService.deleteTourrider(tourrider.id)
+    // .subscribe(() => {
+    // this.fetch$.next(true);
+    // this.removeRiderFromAlreadySelected.emit(tourrider.rider);
+    // })
+    // 
+  }
+
   ngOnDestroy(): void {
     this.unsubscribe.next();
     this.unsubscribe.unsubscribe();
+  }
+
+  cancel() {
+    // modal.dismiss(null, 'cancel');
+  }
+
+  confirm() {
+    // this.modal.dismiss('', 'confirm');
+  }
+
+  onWillDismiss(event: Event) {
+    // const ev = event as CustomEvent<OverlayEventDetail<string>>;
+    // if (ev.detail.role === 'confirm') {
+    // this.message = `Hello, ${ev.detail.data}!`;
+    // }
   }
 
 }

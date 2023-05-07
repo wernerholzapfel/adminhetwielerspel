@@ -2,20 +2,18 @@ import {NgModule} from '@angular/core';
 import {CommonModule} from '@angular/common';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {IonicModule} from '@ionic/angular';
-import { TeamComponent } from './team.component';
-import { EditTourriderModule } from '../edit-tourrider/edit-tourrider.module';
+import { EditTourriderComponent } from './edit-tourrider.component';
 
 
 @NgModule({
-    declarations: [TeamComponent],
+    declarations: [EditTourriderComponent],
     imports: [
         CommonModule,
         FormsModule,
         ReactiveFormsModule,
         IonicModule,
-        EditTourriderModule,
     ],
-    exports: [TeamComponent]
+    exports: [EditTourriderComponent]
 })
-export class TeamModule {
+export class EditTourriderModule {
 }

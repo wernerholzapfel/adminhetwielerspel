@@ -1,7 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { ItemReorderEventDetail } from '@ionic/angular';
-import { Observable, of, Subject, switchMap, takeUntil } from 'rxjs';
+import { BehaviorSubject, combineLatest, Observable, of, Subject, switchMap, takeUntil } from 'rxjs';
 import { ALGEMEENKLASSEMENT_TEXT, BERGKLASSEMENT_TEXT, JONGERENKLASSEMENT_TEXT, PUNTENKLASSEMENT_TEXT } from 'src/app/constants/constants';
 import { IStageClassification, ITourClassification } from 'src/app/models/etappe.model';
 import { ITour } from 'src/app/models/tour.model';
@@ -33,6 +33,7 @@ export class UitslagenGridComponent implements OnInit {
   uitslag$: Observable<ITourClassification[]> = new Observable<[]>;
   uitslag: any[] = [];
   tourriders: ITourrider[] = [];
+  searchTerm$: BehaviorSubject<string> = new BehaviorSubject('');
 
   constructor(private route: ActivatedRoute,
     private classificationService: ClassificationsService,
@@ -46,10 +47,11 @@ export class UitslagenGridComponent implements OnInit {
     this.uiService.selectedTour
       .pipe(takeUntil(this.unsubscribe))
       .pipe(switchMap(tour => {
-        return tour && tour.id ? this.tourriderService.getTourriders(tour.id) : of([])
+    combineLatest([this.searchTerm$])
+        return tour && tour.id ?  combineLatest([this.tourriderService.getTourriders(tour.id), this.searchTerm$])  : combineLatest([of([]), this.searchTerm$])
       }))
-      .subscribe(tourriders => {
-        this.tourriders = tourriders
+      .subscribe(([tourriders, searchTerm]) => {
+        this.tourriders = this.uiService.filterTourriders(searchTerm, tourriders);
       })
   }
 
@@ -61,7 +63,7 @@ export class UitslagenGridComponent implements OnInit {
     // Finish the reorder and position the item in the DOM based on
     // where the gesture ended. This method can also be called directly
     // by the reorder group
-    ev.detail.complete(this.uitslag);
+    ev.detail.complete(false);
     this.uitslag = this.orderUitslag(this.uitslag)
   }
   addTourriderToClassification(tourrider: ITourrider) {
@@ -146,8 +148,15 @@ export class UitslagenGridComponent implements OnInit {
     }
   }
 
+  search($event: any) {
+    this.searchTerm$.next($event.detail.value);
+  }
+
   private submitClassification(endpoint: ClassificationEndpoint) {
+    console.log(this.uitslag.length)
+    console.log(this.uitslag)
     this.classificationService.saveClassifications(this.uitslag, endpoint).subscribe(response => {
+      this.uiService.presentToast('Opslaan gelukt', 'success')
     });
   }
 }

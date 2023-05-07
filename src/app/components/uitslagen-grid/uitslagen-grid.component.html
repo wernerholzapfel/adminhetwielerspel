@@ -36,7 +36,9 @@
         </ion-card-header>
         <ion-card-content>
           <ion-item>
-            <ion-searchbar mode="ios"></ion-searchbar>
+            <ion-searchbar mode="ios" [value]="searchTerm$ | async" (ionChange)="search($event)" placeholder="Zoek renner"
+            debounce="500">
+          </ion-searchbar>
           </ion-item>
           <ion-item *ngFor="let tourrider of tourriders">
             <ion-label>

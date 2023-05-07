@@ -16,33 +16,40 @@ export class StandenPage implements OnInit {
 
   updateAlgemeen() {
     this.predictionScoreService.updatePredictionScoreAlgemeen(this.uiService.selectedTour.getValue().id)
-    .subscribe(response => {
-      this.uiService.presentToast('Opslaan gelukt')
-    })
+      .subscribe(response => {
+        this.uiService.presentToast('Opslaan gelukt')
+      })
   }
-    updateBerg() {
+  updateBerg() {
     this.predictionScoreService.updatePredictionScoreBerg(this.uiService.selectedTour.getValue().id)
-    .subscribe(response => {
-      console.log(response)
-      this.uiService.presentToast('Opslaan gelukt')
+      .subscribe(response => {
+        console.log(response)
+        this.uiService.presentToast('Opslaan gelukt')
 
-    })
+      })
   }
   updatePunten() {
     this.predictionScoreService.updatePredictionScorePunten(this.uiService.selectedTour.getValue().id)
-    .subscribe(response => {
-      console.log(response)
-      this.uiService.presentToast('Opslaan gelukt')
+      .subscribe(response => {
+        console.log(response)
+        this.uiService.presentToast('Opslaan gelukt')
 
-    })
+      })
   }
   updateJongeren() {
     this.predictionScoreService.updatePredictionScoreJongeren(this.uiService.selectedTour.getValue().id)
-    .subscribe(response => {
-      console.log(response)
-      this.uiService.presentToast('Opslaan gelukt')
+      .subscribe(response => {
+        console.log(response)
+        this.uiService.presentToast('Opslaan gelukt')
 
-    })
+      })
+  }
+  InvalidateCache() {
+    this.predictionScoreService.invalidateCache()
+      .subscribe(response => {
+        console.log(response)
+        this.uiService.presentToast('Cache geleegd')
+      })
   }
 
   updateStand() {

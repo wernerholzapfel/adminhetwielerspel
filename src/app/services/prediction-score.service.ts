@@ -26,6 +26,9 @@ export class PredictionScoreService {
   updatePredictionScoreEtappe(tourId: string, etappeId: string): Observable<any> {
     return this.http.put<any>(`${environment.apiBaseUrl}/prediction-score/etappe/${tourId}/${etappeId}`, {})
   }
+  invalidateCache(): Observable<any> {
+    return this.http.put<any>(`${environment.apiBaseUrl}/participants/cache`, {})
+  }
 
 
 
