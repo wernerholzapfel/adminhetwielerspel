@@ -63,7 +63,7 @@ export class UitslagenGridComponent implements OnInit {
     // Finish the reorder and position the item in the DOM based on
     // where the gesture ended. This method can also be called directly
     // by the reorder group
-    ev.detail.complete(false);
+    ev.detail.complete(this.uitslag);
     this.uitslag = this.orderUitslag(this.uitslag)
   }
   addTourriderToClassification(tourrider: ITourrider) {
