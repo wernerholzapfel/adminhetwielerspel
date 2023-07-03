@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { NotificationService } from 'src/app/services/notification.service';
 import { PredictionScoreService } from 'src/app/services/prediction-score.service';
 import { UiService } from 'src/app/services/ui.service';
 
@@ -9,7 +10,7 @@ import { UiService } from 'src/app/services/ui.service';
 })
 export class StandenPage implements OnInit {
 
-  constructor(private predictionScoreService: PredictionScoreService, private uiService: UiService) { }
+  constructor(private predictionScoreService: PredictionScoreService, private uiService: UiService, private notificationService: NotificationService) { }
 
   ngOnInit() {
   }
@@ -49,6 +50,14 @@ export class StandenPage implements OnInit {
       .subscribe(response => {
         console.log(response)
         this.uiService.presentToast('Cache geleegd')
+      })
+  }
+
+  sendNotification() {
+    this.notificationService.sendNotification()
+      .subscribe(response => {
+        console.log(response)
+        this.uiService.presentToast('Notificatie verstuurd')
       })
   }
 
